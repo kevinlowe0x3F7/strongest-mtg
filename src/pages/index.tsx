@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { type NextPage } from "next";
 import Link from "next/link";
 
@@ -11,7 +12,7 @@ const Home: NextPage = () => {
       <div className="text-3xl font-semibold text-white">
         Which card is stronger?
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+      <div className="grid grid-cols-2 grid-rows-1 justify-items-center gap-4 md:gap-8">
         <Link
           className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
           href="https://create.t3.gg/en/usage/first-steps"
@@ -34,6 +35,8 @@ const Home: NextPage = () => {
             deploy it.
           </div>
         </Link>
+        <Button variant="contained">Stronger</Button>
+        <Button variant="contained">Stronger</Button>
       </div>
       <p className="text-2xl text-white">
         {hello.data ? hello.data.greeting : "Loading tRPC query..."}
