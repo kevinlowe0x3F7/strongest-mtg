@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { type NextPage } from "next";
 import Link from "next/link";
 
@@ -35,8 +34,8 @@ const Home: NextPage = () => {
             deploy it.
           </div>
         </Link>
-        <Button variant="contained">Stronger</Button>
-        <Button variant="contained">Stronger</Button>
+        <div className="h-5 w-10 bg-white" />
+        <div className="h-5 w-10 bg-white" />
       </div>
       <p className="text-2xl text-white">
         {hello.data ? hello.data.greeting : "Loading tRPC query..."}
