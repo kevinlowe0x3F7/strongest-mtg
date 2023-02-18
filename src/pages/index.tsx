@@ -1,3 +1,5 @@
+import * as React from "react";
+import { Button } from "@mui/material";
 import { type NextPage } from "next";
 import Link from "next/link";
 
@@ -6,6 +8,7 @@ import { api } from "../utils/api";
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
+  const handleClick = React.useCallback(() => console.log("I got clicked"), []);
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
       <div className="text-3xl font-semibold text-white">
@@ -34,8 +37,12 @@ const Home: NextPage = () => {
             deploy it.
           </div>
         </Link>
-        <div className="h-5 w-10 bg-white" />
-        <div className="h-5 w-10 bg-white" />
+        <Button onClick={handleClick} variant="contained">
+          Stronger
+        </Button>
+        <Button onClick={handleClick} variant="contained">
+          Stronger
+        </Button>
       </div>
       <p className="text-2xl text-white">
         {hello.data ? hello.data.greeting : "Loading tRPC query..."}
