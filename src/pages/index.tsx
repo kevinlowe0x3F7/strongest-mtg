@@ -7,18 +7,19 @@ import Image from "next/image";
 
 const Home: NextPage = () => {
   const { data: cards } = api.cards.twoRandomCards.useQuery(undefined);
+  console.log("cards", cards);
 
   const handleClick1 = React.useCallback(() => {
+    console.log("I got clicked", cards?.id1);
     if (cards?.id1 == null) {
       return;
     }
-    console.log("I got clicked", cards.id1);
   }, [cards?.id1]);
   const handleClick2 = React.useCallback(() => {
+    console.log("I got clicked", cards?.id2);
     if (cards?.id2 == null) {
       return;
     }
-    console.log("I got clicked", cards.id2);
   }, [cards?.id2]);
 
   return (
