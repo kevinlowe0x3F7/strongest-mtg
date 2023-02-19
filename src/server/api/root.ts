@@ -17,5 +17,5 @@ export type AppRouter = typeof appRouter;
 type RouterInput = inferRouterInputs<AppRouter>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
 
-export type CardsRandomCardInput = RouterInput["cards"]["randomCard"];
-export type CardsRandomCardOutput = RouterOutput["cards"]["randomCard"];
+export type CardsTwoRandomCardsInput = RouterInput["cards"]["twoRandomCards"];
+export type CardsTwoRandomCardsOutput = RouterOutput["cards"]["twoRandomCards"];
