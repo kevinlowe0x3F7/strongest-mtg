@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container h-10 bg-white" />
-      <main className="flex h-[calc(100vh-40px)] flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex h-[calc(100%-40px)] flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         {children}
       </main>
     </>

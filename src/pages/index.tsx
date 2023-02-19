@@ -4,9 +4,11 @@ import { type NextPage } from "next";
 import Link from "next/link";
 
 import { api } from "../utils/api";
+import Image from "next/image";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const card = api.cards.randomCard.useQuery(undefined);
+  console.log("card", card);
 
   const handleClick = React.useCallback(() => console.log("I got clicked"), []);
   return (
@@ -45,7 +47,17 @@ const Home: NextPage = () => {
         </Button>
       </div>
       <p className="text-2xl text-white">
-        {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+        {card.data ? card.data.name : "Loading tRPC query..."}
+        {card.data?.image_url ? (
+          <Image
+            src={card.data.image_url}
+            alt={card.data.name}
+            width={244}
+            height={340}
+          />
+        ) : (
+          "Loading image"
+        )}
       </p>
     </div>
   );
