@@ -32,13 +32,15 @@ const Home: NextPage<HomeProps> = (pageProps) => {
     if (id1 == null) {
       return;
     }
-  }, [id1]);
+    setCardIds(() => getOptionsForVote(pageProps.count));
+  }, [id1, pageProps.count]);
   const handleClick2 = React.useCallback(() => {
     console.log("I got clicked", id2);
     if (id2 == null) {
       return;
     }
-  }, [id2]);
+    setCardIds(() => getOptionsForVote(pageProps.count));
+  }, [id2, pageProps.count]);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">
