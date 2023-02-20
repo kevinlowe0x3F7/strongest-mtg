@@ -1,11 +1,17 @@
 import * as React from "react";
 import { Button, CircularProgress } from "@mui/material";
-import { type NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, type NextPage } from "next";
 
 import { api } from "../utils/api";
 import Image from "next/image";
+import { prisma } from "../server/db";
 
-const Home: NextPage = () => {
+interface HomeProps {
+  count: number;
+}
+
+const Home: NextPage<HomeProps> = (pageProps) => {
+  console.log("got count from server", pageProps.count);
   const { data: cards } = api.cards.twoRandomCards.useQuery(undefined);
   console.log("cards", cards);
 
@@ -55,7 +61,13 @@ const Card: React.FC<CardProps> = ({ image_url, name, handleClick }) => {
       <>
         <div className="text-white">{name}</div>
         <div className="py-2" />
-        <Image src={image_url} alt={name} width={244} height={340} />
+        <Image
+          src={image_url}
+          alt={name}
+          width={244}
+          height={340}
+          priority={true}
+        />
         <div className="py-2" />
       </>
     ) : (
@@ -76,5 +88,14 @@ const Card: React.FC<CardProps> = ({ image_url, name, handleClick }) => {
     </div>
   );
 };
+
+export async function getStaticProps() {
+  const count = await prisma.card.count();
+  return {
+    props: {
+      count,
+    },
+  };
+}
 
 export default Home;
