@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider     = "mysql"
+    provider     = "sqlite"
     url          = env("DATABASE_URL")
     relationMode = "prisma"
 }
@@ -16,4 +16,10 @@ model Card {
     card_id   String
     image_url String
     name      String
+}
+
+model Votes {
+    cardInt_id Int @id
+    votedFor   Int
+    totalVotes Int
 }

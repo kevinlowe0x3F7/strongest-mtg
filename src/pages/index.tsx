@@ -25,22 +25,27 @@ const Home: NextPage<HomeProps> = (pageProps) => {
   const { data: cards } = api.cards.twoCards.useQuery(cardIds);
   console.log("cards", cards);
 
-  const id1 = React.useMemo(() => cards?.card1?.card_id, [cards]);
-  const id2 = React.useMemo(() => cards?.card2?.card_id, [cards]);
+  const voteMutation = api.cards.vote.useMutation();
+
+  const id1 = React.useMemo(() => cards?.card1?.int_id, [cards]);
+  const id2 = React.useMemo(() => cards?.card2?.int_id, [cards]);
   const handleClick1 = React.useCallback(() => {
     console.log("I got clicked", id1);
     if (id1 == null) {
       return;
     }
+    const votes = voteMutation.mutate({ votedFor: id1, votedAgainst: id2 });
+    console.log("votes", votes);
     setCardIds(() => getOptionsForVote(pageProps.count));
-  }, [id1, pageProps.count]);
+  }, [id1, id2, pageProps.count, voteMutation]);
   const handleClick2 = React.useCallback(() => {
-    console.log("I got clicked", id2);
     if (id2 == null) {
       return;
     }
+    const votes = voteMutation.mutate({ votedFor: id2, votedAgainst: id1 });
+    console.log("votes", votes);
     setCardIds(() => getOptionsForVote(pageProps.count));
-  }, [id2, pageProps.count]);
+  }, [id1, id2, pageProps.count, voteMutation]);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">

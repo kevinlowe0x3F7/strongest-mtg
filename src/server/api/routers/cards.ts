@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
@@ -20,15 +21,37 @@ export const cardsRouter = createTRPCRouter({
         card1: cards[0],
         card2: cards[1],
       };
-      /*
-      return {
-        id1: "89c5dec1-cefe-4ce3-a9df-b5cb9fa73b35",
-        name1: "Twisted Justice",
-        image_url1: "https://cards.scryfall.io/normal/front/d/8/d8efa02d-c301-47e1-8cdf-26ff9e97a243.jpg?1598917592",
-        id2: "7721e800-fba6-4ae7-855e-631b2ecc8d6b",
-        name2: "Chandra, Flame's Catalyst",
-        image_url2: "https://cards.scryfall.io/normal/front/1/e/1e49ce44-5286-4310-88c2-f8a1402b113b.jpg?1596168039",
-      };
-      */
     }),
+  vote: publicProcedure
+    .input(z.object({ votedFor: z.number().gte(1), votedAgainst: z.number().gte(1), }))
+    .mutation(async ({ input }) => {
+      const votes = await prisma.$transaction(
+        [
+        prisma.votes.upsert(upsertVote(true, input.votedFor)),
+        prisma.votes.upsert(upsertVote(false, input.votedAgainst)),
+        ]
+      );
+      return votes;
+    })
 });
+
+const upsertVote = (votedFor: boolean, id: number): Prisma.VotesUpsertArgs  => {
+  return {
+        where: {
+          cardInt_id: id
+        },
+        create: {
+          cardInt_id: id,
+          votedFor: votedFor ? 1 : 0,
+          totalVotes: 1,
+        },
+        update: {
+          votedFor: {
+            increment: votedFor ? 1 : 0
+          },
+          totalVotes: {
+            increment: 1
+          }
+        }
+      };
+}
