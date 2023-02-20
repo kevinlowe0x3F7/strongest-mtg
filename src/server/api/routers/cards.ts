@@ -13,7 +13,7 @@ export const cardsRouter = createTRPCRouter({
       }});
 
       if (cards.length !== 2) {
-        throw new Error("Did not find two cards in database that match ids", input);
+        throw new Error("Did not find two cards in database that match ids");
       }
 
       return {
