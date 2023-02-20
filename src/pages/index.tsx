@@ -31,7 +31,7 @@ const Home: NextPage<HomeProps> = (pageProps) => {
   const id2 = React.useMemo(() => cards?.card2?.int_id, [cards]);
   const handleClick1 = React.useCallback(() => {
     console.log("I got clicked", id1);
-    if (id1 == null) {
+    if (id1 == null || id2 == null) {
       return;
     }
     const votes = voteMutation.mutate({ votedFor: id1, votedAgainst: id2 });
@@ -39,7 +39,7 @@ const Home: NextPage<HomeProps> = (pageProps) => {
     setCardIds(() => getOptionsForVote(pageProps.count));
   }, [id1, id2, pageProps.count, voteMutation]);
   const handleClick2 = React.useCallback(() => {
-    if (id2 == null) {
+    if (id1 == null || id2 == null) {
       return;
     }
     const votes = voteMutation.mutate({ votedFor: id2, votedAgainst: id1 });
