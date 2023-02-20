@@ -5,28 +5,40 @@ import { type NextPage } from "next";
 import { api } from "../utils/api";
 import Image from "next/image";
 import { prisma } from "../server/db";
+import { getOptionsForVote } from "../utils/randomCard";
 
 interface HomeProps {
   count: number;
 }
 
+interface CardIds {
+  firstId: number;
+  secondId: number;
+}
+
 const Home: NextPage<HomeProps> = (pageProps) => {
   console.log("got count from server", pageProps.count);
-  const { data: cards } = api.cards.twoRandomCards.useQuery(undefined);
+  const [cardIds, setCardIds] = React.useState<CardIds>(() =>
+    getOptionsForVote(pageProps.count)
+  );
+  console.log("random card ids", cardIds);
+  const { data: cards } = api.cards.twoCards.useQuery(cardIds);
   console.log("cards", cards);
 
+  const id1 = React.useMemo(() => cards?.card1?.card_id, [cards]);
+  const id2 = React.useMemo(() => cards?.card2?.card_id, [cards]);
   const handleClick1 = React.useCallback(() => {
-    console.log("I got clicked", cards?.id1);
-    if (cards?.id1 == null) {
+    console.log("I got clicked", id1);
+    if (id1 == null) {
       return;
     }
-  }, [cards?.id1]);
+  }, [id1]);
   const handleClick2 = React.useCallback(() => {
-    console.log("I got clicked", cards?.id2);
-    if (cards?.id2 == null) {
+    console.log("I got clicked", id2);
+    if (id2 == null) {
       return;
     }
-  }, [cards?.id2]);
+  }, [id2]);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">
@@ -35,13 +47,13 @@ const Home: NextPage<HomeProps> = (pageProps) => {
       </div>
       <div className="grid grid-cols-2 justify-items-center gap-4 md:gap-8">
         <Card
-          image_url={cards?.image_url1}
-          name={cards?.name1}
+          image_url={cards?.card1?.image_url}
+          name={cards?.card1?.name}
           handleClick={handleClick1}
         />
         <Card
-          image_url={cards?.image_url2}
-          name={cards?.name2}
+          image_url={cards?.card2?.image_url}
+          name={cards?.card2?.name}
           handleClick={handleClick2}
         />
       </div>

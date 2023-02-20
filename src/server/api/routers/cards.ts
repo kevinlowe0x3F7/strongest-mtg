@@ -1,16 +1,26 @@
+import { z } from "zod";
+import { prisma } from "../../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const cardsRouter = createTRPCRouter({
-  twoRandomCards: publicProcedure
-    .query(() => {
-      /*
-      const [randomCard, anotherRandomCard] = await Promise.all([Scry.Cards.random(), Scry.Cards.random()]);
+  twoCards: publicProcedure
+    .input(z.object({ firstId: z.number().gte(1), secondId: z.number().gte(1) }))
+    .query(async ({ input }) => {
+      const cards = await prisma.card.findMany({ where: {
+        int_id: {
+          in: [input.firstId, input.secondId],
+        }
+      }});
+
+      if (cards.length !== 2) {
+        throw new Error("Did not find two cards in database that match ids", input);
+      }
+
       return {
-        id: randomCard.oracle_id,
-        name: randomCard.name,
-        image_url: randomCard.getImageURI("normal"),
+        card1: cards[0],
+        card2: cards[1],
       };
-      */
+      /*
       return {
         id1: "89c5dec1-cefe-4ce3-a9df-b5cb9fa73b35",
         name1: "Twisted Justice",
@@ -19,5 +29,6 @@ export const cardsRouter = createTRPCRouter({
         name2: "Chandra, Flame's Catalyst",
         image_url2: "https://cards.scryfall.io/normal/front/1/e/1e49ce44-5286-4310-88c2-f8a1402b113b.jpg?1596168039",
       };
+      */
     }),
 });
