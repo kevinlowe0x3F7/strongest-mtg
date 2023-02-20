@@ -1,11 +1,13 @@
-import { AppProps, type AppType } from "next/app";
+import type { AppProps } from "next/app";
+import { type AppType } from "next/app";
 
 import { api } from "../utils/api";
 
 import "../styles/globals.css";
 import Layout from "../components/layout";
 import createEmotionCache from "../utils/createEmotionCache";
-import { CacheProvider, EmotionCache } from "@emotion/react";
+import type { EmotionCache } from "@emotion/react";
+import { CacheProvider } from "@emotion/react";
 import { ThemeProvider } from "@mui/material";
 import theme from "../theme";
 

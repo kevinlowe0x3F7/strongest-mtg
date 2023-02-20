@@ -1,5 +1,4 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import * as Scry from "scryfall-sdk";
 
 export const cardsRouter = createTRPCRouter({
   twoRandomCards: publicProcedure

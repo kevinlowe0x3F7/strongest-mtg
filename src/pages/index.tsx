@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Button, CircularProgress } from "@mui/material";
-import { GetServerSideProps, GetStaticProps, type NextPage } from "next";
+import { type NextPage } from "next";
 
 import { api } from "../utils/api";
 import Image from "next/image";
