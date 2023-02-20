@@ -12,10 +12,11 @@ datasource db {
 }
 
 model Card {
-    int_id    Int    @id @default(autoincrement())
-    card_id   String
-    image_url String
-    name      String
+    int_id        Int    @id @default(autoincrement())
+    card_id       String
+    image_url     String
+    art_image_url String
+    name          String
 }
 
 model Votes {
