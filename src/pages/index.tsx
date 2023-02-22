@@ -17,40 +17,34 @@ interface CardIds {
 }
 
 const Home: NextPage<HomeProps> = (pageProps) => {
-  console.log("got count from server", pageProps.count);
   const [cardIds, setCardIds] = React.useState<CardIds>(() =>
     getOptionsForVote(pageProps.count)
   );
-  console.log("random card ids", cardIds);
   const { data: cards } = api.cards.twoCards.useQuery(cardIds);
-  console.log("cards", cards);
 
   const voteMutation = api.cards.vote.useMutation();
 
   const id1 = React.useMemo(() => cards?.card1?.int_id, [cards]);
   const id2 = React.useMemo(() => cards?.card2?.int_id, [cards]);
   const handleClick1 = React.useCallback(() => {
-    console.log("I got clicked", id1);
     if (id1 == null || id2 == null) {
       return;
     }
-    const votes = voteMutation.mutate({ votedFor: id1, votedAgainst: id2 });
-    console.log("votes", votes);
+    voteMutation.mutate({ votedFor: id1, votedAgainst: id2 });
     setCardIds(() => getOptionsForVote(pageProps.count));
   }, [id1, id2, pageProps.count, voteMutation]);
   const handleClick2 = React.useCallback(() => {
     if (id1 == null || id2 == null) {
       return;
     }
-    const votes = voteMutation.mutate({ votedFor: id2, votedAgainst: id1 });
-    console.log("votes", votes);
+    voteMutation.mutate({ votedFor: id2, votedAgainst: id1 });
     setCardIds(() => getOptionsForVote(pageProps.count));
   }, [id1, id2, pageProps.count, voteMutation]);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">
       <div className="text-3xl font-semibold text-white">
-        Which card is stronger?
+        Which card is cooler?
       </div>
       <div className="grid grid-cols-2 justify-items-center gap-4 md:gap-8">
         <Card
@@ -102,7 +96,7 @@ const Card: React.FC<CardProps> = ({ image_url, name, handleClick }) => {
     <div className="flex flex-col items-center">
       {cardContent}
       <Button disabled={name == null} onClick={handleClick} variant="contained">
-        Stronger
+        Cooler
       </Button>
     </div>
   );
