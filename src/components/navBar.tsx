@@ -7,7 +7,7 @@ export const NavBar: React.FC = () => {
       <Link className="text-white" href="/">
         Home
       </Link>
-      <Link className="text-white" href="/">
+      <Link className="text-white" href="/results">
         Results
       </Link>
     </div>

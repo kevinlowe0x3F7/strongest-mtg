@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <main className="flex h-[calc(100%-40px)] flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex h-[calc(100%-40px)] flex-col items-center overflow-auto bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         {children}
       </main>
     </>
